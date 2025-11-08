@@ -1,65 +1,813 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle, Star } from "lucide-react"
+import { useState, useRef } from "react"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
+
+export default function DentalClinicLanding() {
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
+  const [formSubmitted, setFormSubmitted] = useState(false)
+  const [selectedCase, setSelectedCase] = useState<number | null>(null)
+
+  const heroRef = useRef(null)
+  const servicesRef = useRef(null)
+  const doctorRef = useRef(null)
+  const casesRef = useRef(null)
+  const testimonialsRef = useRef(null)
+  
+  const servicesInView = useInView(servicesRef, { once: true, margin: "-100px" })
+  const doctorInView = useInView(doctorRef, { once: true, margin: "-100px" })
+  const casesInView = useInView(casesRef, { once: true, margin: "-100px" })
+  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" })
+
+  const { scrollYProgress } = useScroll()
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+
+  const services = [
+    {
+      icon: "✨",
+      title: "طب الأسنان التجميلي",
+      description: "حوّل ابتسامتك مع علاجاتنا التجميلية الفاخرة",
+      features: ["تبييض الأسنان", "القشور الخزفية", "تصميم الابتسامة"],
+    },
+    {
+      icon: "🦷",
+      title: "الرعاية الترميمية",
+      description: "تقنيات الترميم المتقدمة لصحة الفم المثالية",
+      features: ["زراعة الأسنان", "التيجان", "الجسور"],
+    },
+    {
+      icon: "👑",
+      title: "تقويم الأسنان",
+      description: "قم بتعديل أسنانك بأحدث التقنيات",
+      features: ["تقويم شفاف", "تقويم متحرك", "تقويم تقليدي"],
+    },
+    {
+      icon: "🔬",
+      title: "علاج اللثة",
+      description: "علاجات متخصصة لصحة اللثة والعظام",
+      features: ["تنظيف عميق", "علاج الجذور", "ترقيع اللثة"],
+    },
+  ]
+
+  const features = [
+    { icon: Award, label: "25+ عام خبرة", value: "التميز" },
+    { icon: Users, label: "10000+ عميل سعيد", value: "الثقة" },
+    { icon: Zap, label: "أحدث التقنيات", value: "الابتكار" },
+    { icon: Heart, label: "التركيز على المريض", value: "الرعاية" },
+  ]
+
+  const cases = [
+    { id: 1, image: "/cases/IMG_3266.JPG", title: "تحول الابتسامة" },
+    { id: 2, image: "/cases/IMG_3267.JPG", title: "تحسين تجميلي" },
+    { id: 3, image: "/cases/IMG_3304.png", title: "نجاح ترميمي" },
+    { id: 4, image: "/cases/IMG_3306.png", title: "محاذاة مثالية" },
+    { id: 5, image: "/cases/IMG_3307.png", title: "ترميم كامل" },
+  ]
+
+  const testimonials = [
+    {
+      name: "سارة أحمد",
+      text: "د. خضور حوّل ابتسامتي بما يفوق توقعاتي. الاهتمام بالتفاصيل والرعاية استثنائية!",
+      rating: 5,
+    },
+    {
+      name: "محمد جونسون",
+      text: "25 عاماً من الخبرة تظهر حقاً. محترف، لطيف، ونتائج تتحدث عن نفسها.",
+      rating: 5,
+    },
+    {
+      name: "ليلى حسن",
+      text: "أفضل رعاية أسنان تلقيتها على الإطلاق. تكنولوجيا حديثة مع خبرة لا تصدق.",
+      rating: 5,
+    },
+    {
+      name: "ديفيد مارتينيز",
+      text: "من الاستشارة إلى النتيجة النهائية، كل شيء كان مثالياً. أوصي بشدة بالدكتور خضور!",
+      rating: 5,
+    },
+    {
+      name: "فاطمة علي",
+      text: "فنان حقيقي في طب الأسنان الترميمي. ثقتي بنفسي ارتفعت بفضل عمله.",
+      rating: 5,
+    },
+    {
+      name: "جيمس ويلسون",
+      text: "رعاية عالمية المستوى مع لمسة شخصية. الفريق ودود والنتائج مذهلة.",
+      rating: 5,
+    },
+  ]
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="w-full bg-linear-to-b from-indigo-950 via-indigo-900 to-violet-950 min-h-screen overflow-hidden">
+      {/* Navigation */}
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="flex items-center gap-3"
+          >
+            <div className="w-12 h-12 bg-linear-to-br from-indigo-500 to-violet-400 rounded-full flex items-center justify-center shadow-lg">
+              <span className="text-white font-bold text-xl">س خ</span>
+            </div>
+            <div>
+              <h1 className="text-lg md:text-xl font-bold text-white luxury-text">د. سامر خضور</h1>
+              <p className="text-xs text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
+            </div>
+          </motion.div>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              الخدمات
+            </a>
+            <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              عن الدكتور
+            </a>
+            <a href="#cases" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              الحالات
+            </a>
+            <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              اتصل بنا
+            </a>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold hover:shadow-xl transition duration-300 text-sm"
+            >
+              احجز الآن
+            </motion.button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Hero Section */}
+      <section ref={heroRef} className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Animated Background Elements */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"
+        ></motion.div>
+        <motion.div
+          animate={{
+            scale: [1, 1.3, 1],
+            rotate: [0, -90, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute bottom-0 right-20 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
+        ></motion.div>
+
+        {/* Floating Particles */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-indigo-400/30 rounded-full"
+            animate={{
+              y: [0, -100, 0],
+              x: [0, Math.random() * 100 - 50, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 5 + i,
+              repeat: Infinity,
+              delay: i * 0.5,
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          />
+        ))}
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Hero Text */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
+            >
+              <div className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-block px-4 py-2 glass rounded-full"
+                >
+                  <span className="text-indigo-200 text-sm font-semibold">✨ رعاية أسنان فاخرة</span>
+                </motion.div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-5xl md:text-6xl font-bold text-white luxury-text leading-tight"
+                >
+                  ابتسامتك،
+                  <br />
+                  <span className="bg-linear-to-r from-indigo-300 via-violet-300 to-indigo-400 bg-clip-text text-transparent">
+                    بكل إتقان
+                  </span>
+                </motion.h1>
+              </div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-lg text-indigo-100 luxury-text leading-relaxed"
+              >
+                اختبر رعاية أسنان عالمية المستوى مع د. سامر خضور، خبير متميز في طب الأسنان الترميمي والتجميلي مع 25 عاماً من التميز من جامعة دمشق.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-col sm:flex-row gap-4 pt-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.3)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+                >
+                  احجز استشارة
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 glass text-white rounded-full font-semibold hover:bg-white/20 transition"
+                >
+                  اعرف المزيد
+                </motion.button>
+              </motion.div>
+
+              {/* Stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="flex gap-8 pt-8 border-t border-indigo-200/30"
+              >
+                <div>
+                  <p className="text-3xl font-bold text-indigo-300">10000+</p>
+                  <p className="text-sm text-indigo-200">مريض سعيد</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-indigo-300">25+</p>
+                  <p className="text-sm text-indigo-200">عام خبرة</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-indigo-300">99%</p>
+                  <p className="text-sm text-indigo-200">نسبة الرضا</p>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Doctor Card with Glass Effect */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative h-96 md:h-full min-h-96 flex items-center justify-center"
+            >
+              <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-20"></div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                className="relative glass-indigo p-1 w-full h-96 overflow-hidden"
+              >
+                <div className="w-full h-full bg-linear-to-b from-indigo-900/50 to-violet-900/30 rounded-3xl flex items-center justify-center relative overflow-hidden">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+                    src="/dr.jpeg"
+                    alt="د. سامر خضور"
+                    fill
+                    className="object-cover rounded-3xl"
           priority
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+                  <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-indigo-950/90 via-indigo-900/70 to-transparent p-6">
+                    <h3 className="text-2xl font-bold text-white">د. سامر خضور</h3>
+                    <p className="text-sm text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
+                    <div className="flex justify-start gap-1 mt-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* Features Section */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm"
+      >
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-4 gap-6"
+          >
+            {features.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <motion.div
+                  key={index}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="glass rounded-2xl p-6 hover:bg-white/10 transition text-center"
+                >
+                  <Icon className="w-8 h-8 text-indigo-300 mx-auto mb-4" />
+                  <p className="text-sm text-indigo-200 mb-2">{feature.label}</p>
+                  <p className="text-2xl font-bold text-white">{feature.value}</p>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Services Section */}
+      <section id="services" ref={servicesRef} className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16 space-y-4"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">خدماتنا المميزة</h2>
+            <p className="text-lg text-indigo-200 luxury-text">تميز طبي شامل مصمم خصيصاً لاحتياجاتك</p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={servicesInView ? "visible" : "hidden"}
+            className="grid md:grid-cols-2 gap-6"
+          >
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.2)" }}
+                className="glass-indigo p-8 transition duration-300 cursor-pointer"
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                <motion.div
+                  animate={{ rotate: hoveredCard === index ? 360 : 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-5xl mb-4"
+                >
+                  {service.icon}
+                </motion.div>
+                <h3 className="text-2xl font-bold text-white mb-2">{service.title}</h3>
+                <p className="text-indigo-200 mb-4 luxury-text">{service.description}</p>
+                <div className="space-y-2">
+                  {service.features.map((feature, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={hoveredCard === index ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-center gap-2"
+                    >
+                      <CheckCircle size={16} className="text-indigo-300" />
+                      <span className="text-sm text-indigo-100">{feature}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                {hoveredCard === index && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-4 pt-4 border-t border-indigo-200/50 flex items-center gap-2 text-indigo-300 font-semibold text-sm"
+                  >
+                    <ArrowRight size={16} className="rotate-180" />
+                    اعرف المزيد
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Doctor Section */}
+      <section
+        id="doctor"
+        ref={doctorRef}
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-indigo-900/50 to-violet-900/50 relative overflow-hidden"
+      >
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+          }}
+          className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"
+        ></motion.div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={doctorInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <h2 className="text-4xl font-bold text-white luxury-text">تعرّف على د. سامر خضور</h2>
+              <p className="text-lg text-indigo-100 luxury-text leading-relaxed">
+                خريج متميز من جامعة دمشق مع 25 عاماً من الخبرة في طب الأسنان الترميمي والتجميلي. يجمع د. خضور بين التميز الأكاديمي والإتقان السريري لتقديم رعاية أسنان متحولة.
+              </p>
+
+              <div className="space-y-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.2 }}
+                  className="glass p-4 rounded-xl"
+                >
+                  <p className="font-semibold text-white mb-1">🎓 التعليم والمؤهلات</p>
+                  <p className="text-sm text-indigo-100">
+                    دكتور في جراحة الأسنان (DDS)، دبلوم، ماجستير في العلوم (MDS)، ودكتوراه في طب الأسنان الترميمي والتجميلي - جامعة دمشق
+                  </p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.3 }}
+                  className="glass p-4 rounded-xl"
+                >
+                  <p className="font-semibold text-white mb-1">🏆 الإنجازات</p>
+                  <p className="text-sm text-indigo-100">
+                    أستاذ مشارك في جامعة دمشق، عضو ومتحدث في الجمعية الدولية لأبحاث طب الأسنان (IADR) الولايات المتحدة، عضو في الأكاديمية الأمريكية لطب الأسنان التجميلي
+                  </p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.4 }}
+                  className="glass p-4 rounded-xl"
+                >
+                  <p className="font-semibold text-white mb-1">💫 الفلسفة</p>
+                  <p className="text-sm text-indigo-100">
+                    الجمع بين المعرفة الأكاديمية المتقدمة والدقة الفنية لخلق ابتسامات جميلة ودائمة تحوّل الحياة
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={doctorInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-30"></div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="glass-indigo p-1 rounded-3xl overflow-hidden relative"
+              >
+                <div className="aspect-square bg-linear-to-br from-indigo-900 to-violet-900 rounded-3xl relative overflow-hidden">
+                  <Image src="/dr.jpeg" alt="د. سامر خضور" fill className="object-cover rounded-3xl" />
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cases Section */}
+      <section id="cases" ref={casesRef} className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={casesInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16 space-y-4"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">
+              تحولات تتحدث عن نفسها
+            </h2>
+            <p className="text-lg text-indigo-200 luxury-text">اشهد فن الترميم الطبي المتميز</p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={casesInView ? "visible" : "hidden"}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
+          >
+            {cases.map((caseItem, index) => (
+              <motion.div
+                key={caseItem.id}
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, zIndex: 10 }}
+                className="glass-indigo p-2 rounded-2xl cursor-pointer group"
+                onClick={() => setSelectedCase(selectedCase === caseItem.id ? null : caseItem.id)}
+              >
+                <div className="relative aspect-square overflow-hidden rounded-xl">
+                  <Image
+                    src={caseItem.image}
+                    alt={caseItem.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-indigo-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                    <p className="text-white text-xs font-semibold">{caseItem.title}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Lightbox for selected case */}
+          {selectedCase && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-indigo-950/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setSelectedCase(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                className="relative max-w-4xl w-full aspect-video"
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+                  src={cases.find((c) => c.id === selectedCase)?.image || ""}
+                  alt="تفاصيل الحالة"
+                  fill
+                  className="object-contain rounded-2xl"
+                />
+                <button
+                  className="absolute top-4 left-4 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/20 transition"
+                  onClick={() => setSelectedCase(null)}
+                >
+                  ✕
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
         </div>
-      </main>
+      </section>
+
+      {/* Testimonials Marquee */}
+      <section ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16 space-y-4"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">شهادات المرضى</h2>
+          <p className="text-lg text-indigo-200 luxury-text">استمع لمن اختبروا التحول</p>
+        </motion.div>
+
+        <div className="relative">
+          <motion.div
+            animate={{ x: [0, 1200] }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 30,
+                ease: "linear",
+              },
+            }}
+            className="flex gap-6"
+          >
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="glass-indigo p-6 rounded-2xl min-w-[350px] shrink-0"
+              >
+                <div className="flex gap-1 mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
+                  ))}
+                </div>
+                <p className="text-indigo-100 mb-4 luxury-text italic">&ldquo;{testimonial.text}&rdquo;</p>
+                <p className="font-semibold text-white">{testimonial.name}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="glass-indigo p-12 rounded-3xl space-y-8"
+          >
+            <div className="space-y-4">
+              <h2 className="text-4xl font-bold text-white luxury-text">جاهز للتحوّل؟</h2>
+              <p className="text-lg text-indigo-100 luxury-text">
+                تواصل مع فريقنا لحجز استشارتك الحصرية
+              </p>
+            </div>
+
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-3 gap-6 mb-8"
+            >
+              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+                <Mail size={24} className="text-indigo-300" />
+                <p className="font-semibold text-white">البريد الإلكتروني</p>
+                <a href="mailto:info@drkhaddour.com" className="text-indigo-300 text-sm hover:underline">
+                  info@drkhaddour.com
+                </a>
+              </motion.div>
+              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+                <Phone size={24} className="text-indigo-300" />
+                <p className="font-semibold text-white">الهاتف</p>
+                <a href="tel:+963123456789" className="text-indigo-300 text-sm hover:underline" dir="ltr">
+                  +963 (12) 345-6789
+                </a>
+              </motion.div>
+              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+                <MapPin size={24} className="text-indigo-300" />
+                <p className="font-semibold text-white">الموقع</p>
+                <p className="text-indigo-100 text-sm">دمشق، سوريا</p>
+              </motion.div>
+            </motion.div>
+
+            {!formSubmitted ? (
+              <motion.form
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                viewport={{ once: true }}
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  setFormSubmitted(true)
+                }}
+                className="space-y-4"
+              >
+                <div className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="الاسم"
+                    className="w-full px-6 py-3 rounded-lg bg-white/10 backdrop-blur border border-indigo-200/50 text-white placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                  />
+                  <input
+                    type="email"
+                    placeholder="البريد الإلكتروني"
+                    className="w-full px-6 py-3 rounded-lg bg-white/10 backdrop-blur border border-indigo-200/50 text-white placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+                <input
+                  type="tel"
+                  placeholder="رقم الهاتف"
+                  className="w-full px-6 py-3 rounded-lg bg-white/10 backdrop-blur border border-indigo-200/50 text-white placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                <textarea
+                  placeholder="أخبرنا عن أهدافك لأسنانك..."
+                  rows={4}
+                  className="w-full px-6 py-3 rounded-lg bg-white/10 backdrop-blur border border-indigo-200/50 text-white placeholder:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                ></textarea>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit"
+                  className="w-full px-8 py-4 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-lg font-bold hover:shadow-2xl transition duration-300"
+                >
+                  احجز استشارتك
+                </motion.button>
+              </motion.form>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-8 space-y-4"
+              >
+                <div className="text-6xl">✨</div>
+                <h3 className="text-2xl font-bold text-white">شكراً لك!</h3>
+                <p className="text-indigo-100">
+                  سنتصل بك قريباً لتأكيد موعدك. توقع اتصالنا خلال 24 ساعة.
+                </p>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-indigo-950/95 text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 mb-8 pb-8 border-b border-indigo-600/20">
+            <div>
+              <h4 className="font-bold text-lg mb-4 text-indigo-300">د. سامر خضور</h4>
+              <p className="text-indigo-200 text-sm">التميز في طب الأسنان الترميمي والتجميلي منذ 1999.</p>
+            </div>
+            <div>
+              <h4 className="font-bold text-lg mb-4 text-indigo-300">روابط سريعة</h4>
+              <ul className="space-y-2 text-sm text-indigo-200">
+                <li>
+                  <a href="#services" className="hover:text-indigo-300 transition">
+                    الخدمات
+                  </a>
+                </li>
+                <li>
+                  <a href="#doctor" className="hover:text-indigo-300 transition">
+                    عن د. خضور
+                  </a>
+                </li>
+                <li>
+                  <a href="#cases" className="hover:text-indigo-300 transition">
+                    الحالات
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact" className="hover:text-indigo-300 transition">
+                    اتصل بنا
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-lg mb-4 text-indigo-300">ساعات العمل</h4>
+              <p className="text-sm text-indigo-200">
+                الإثنين - الجمعة: 9 صباحاً - 6 مساءً
+                <br />
+                السبت: 10 صباحاً - 4 مساءً
+                <br />
+                الأحد: مغلق
+              </p>
+            </div>
+          </div>
+          <div className="text-center text-sm text-indigo-300">
+            <p>&copy; 2025 د. سامر خضور. جميع الحقوق محفوظة. التميز في كل ابتسامة. 🦷✨</p>
+          </div>
+        </div>
+      </footer>
     </div>
-  );
+  )
 }
