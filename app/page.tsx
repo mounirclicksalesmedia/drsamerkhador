@@ -5,10 +5,86 @@ import { useState, useRef } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 
+// Before/After Slider Component
+function BeforeAfterSlider({ before, after, title, description }: { before: string; after: string; title: string; description: string }) {
+  const [sliderPosition, setSliderPosition] = useState(50)
+  const [isDragging, setIsDragging] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const handleMove = (clientX: number) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = clientX - rect.left
+    const percentage = (x / rect.width) * 100
+    setSliderPosition(Math.max(0, Math.min(100, percentage)))
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) handleMove(e.clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (isDragging) handleMove(e.touches[0].clientX)
+  }
+
+  return (
+    <div className="space-y-4">
+      <div
+        ref={containerRef}
+        className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
+        onMouseMove={handleMouseMove}
+        onMouseDown={() => setIsDragging(true)}
+        onMouseUp={() => setIsDragging(false)}
+        onMouseLeave={() => setIsDragging(false)}
+        onTouchMove={handleTouchMove}
+        onTouchStart={() => setIsDragging(true)}
+        onTouchEnd={() => setIsDragging(false)}
+      >
+        {/* After Image (Base) */}
+        <div className="absolute inset-0 rounded-xl overflow-hidden">
+          <Image src={after} alt="بعد" fill className="object-cover" />
+          <div className="absolute top-4 left-4 bg-indigo-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+            بعد
+          </div>
+        </div>
+
+        {/* Before Image (Clipped) */}
+        <div
+          className="absolute inset-0 rounded-xl overflow-hidden"
+          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+        >
+          <Image src={before} alt="قبل" fill className="object-cover" />
+          <div className="absolute top-4 right-4 bg-violet-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+            قبل
+          </div>
+        </div>
+
+        {/* Slider Line */}
+        <div
+          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
+          style={{ left: `${sliderPosition}%` }}
+        >
+          {/* Slider Handle */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center">
+            <div className="flex gap-1">
+              <div className="w-0.5 h-6 bg-indigo-500"></div>
+              <div className="w-0.5 h-6 bg-indigo-500"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center space-y-2">
+        <h3 className="text-xl font-bold text-white">{title}</h3>
+        <p className="text-sm text-indigo-200">{description}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function DentalClinicLanding() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const [formSubmitted, setFormSubmitted] = useState(false)
-  const [selectedCase, setSelectedCase] = useState<number | null>(null)
 
   const heroRef = useRef(null)
   const servicesRef = useRef(null)
@@ -58,12 +134,28 @@ export default function DentalClinicLanding() {
     { icon: Heart, label: "التركيز على المريض", value: "الرعاية" },
   ]
 
-  const cases = [
-    { id: 1, image: "/cases/IMG_3266.JPG", title: "تحول الابتسامة" },
-    { id: 2, image: "/cases/IMG_3267.JPG", title: "تحسين تجميلي" },
-    { id: 3, image: "/cases/IMG_3304.png", title: "نجاح ترميمي" },
-    { id: 4, image: "/cases/IMG_3306.png", title: "محاذاة مثالية" },
-    { id: 5, image: "/cases/IMG_3307.png", title: "ترميم كامل" },
+  const beforeAfterCases = [
+    {
+      id: 1,
+      before: "/cases/IMG_3266.JPG",
+      after: "/cases/IMG_3267.JPG",
+      title: "تحول ابتسامة كامل",
+      description: "تحسين شامل للأسنان الأمامية"
+    },
+    {
+      id: 2,
+      before: "/cases/IMG_3304.png",
+      after: "/cases/IMG_3306.png",
+      title: "ترميم تجميلي متقدم",
+      description: "إعادة بناء وتجميل الأسنان"
+    },
+    {
+      id: 3,
+      before: "/cases/IMG_3307.png",
+      after: "/cases/IMG_3266.JPG",
+      title: "تصميم ابتسامة هوليود",
+      description: "نتائج استثنائية ومذهلة"
+    },
   ]
 
   const testimonials = [
@@ -530,7 +622,7 @@ export default function DentalClinicLanding() {
         </div>
       </section>
 
-      {/* Cases Section */}
+      {/* Cases Section - Before/After Sliders */}
       <section id="cases" ref={casesRef} className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
         <div className="max-w-6xl mx-auto relative z-10">
@@ -543,67 +635,43 @@ export default function DentalClinicLanding() {
             <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">
               تحولات تتحدث عن نفسها
             </h2>
-            <p className="text-lg text-indigo-200 luxury-text">اشهد فن الترميم الطبي المتميز</p>
+            <p className="text-lg text-indigo-200 luxury-text">اسحب المؤشر لرؤية النتائج المذهلة</p>
           </motion.div>
 
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={casesInView ? "visible" : "hidden"}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"
+            className="grid md:grid-cols-3 gap-8"
           >
-            {cases.map((caseItem, index) => (
+            {beforeAfterCases.map((caseItem, index) => (
               <motion.div
                 key={caseItem.id}
                 variants={itemVariants}
-                whileHover={{ scale: 1.05, zIndex: 10 }}
-                className="glass-indigo p-2 rounded-2xl cursor-pointer group"
-                onClick={() => setSelectedCase(selectedCase === caseItem.id ? null : caseItem.id)}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
               >
-                <div className="relative aspect-square overflow-hidden rounded-xl">
-                  <Image
-                    src={caseItem.image}
-                    alt={caseItem.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-indigo-950/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
-                    <p className="text-white text-xs font-semibold">{caseItem.title}</p>
-                  </div>
-                </div>
+                <BeforeAfterSlider
+                  before={caseItem.before}
+                  after={caseItem.after}
+                  title={caseItem.title}
+                  description={caseItem.description}
+                />
               </motion.div>
             ))}
           </motion.div>
 
-          {/* Lightbox for selected case */}
-          {selectedCase && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-indigo-950/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-              onClick={() => setSelectedCase(null)}
-            >
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                className="relative max-w-4xl w-full aspect-video"
+          {/* Instructions */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={casesInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-center mt-12"
           >
-            <Image
-                  src={cases.find((c) => c.id === selectedCase)?.image || ""}
-                  alt="تفاصيل الحالة"
-                  fill
-                  className="object-contain rounded-2xl"
-                />
-                <button
-                  className="absolute top-4 left-4 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/20 transition"
-                  onClick={() => setSelectedCase(null)}
-                >
-                  ✕
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
+            <div className="glass-indigo inline-block px-6 py-3 rounded-full">
+              <p className="text-indigo-200 text-sm">💡 اسحب الخط الأبيض لليمين أو اليسار لمشاهدة الفرق</p>
+            </div>
+          </motion.div>
         </div>
       </section>
 
