@@ -494,6 +494,26 @@ export default function DentalClinicLanding() {
               )
             })}
           </motion.div>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <motion.a
+              href="https://wa.me/963123456789?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+            >
+              تواصل معنا عبر واتساب
+            </motion.a>
+          </motion.div>
         </div>
       </motion.section>
 
@@ -561,6 +581,25 @@ export default function DentalClinicLanding() {
                 )}
               </motion.div>
             ))}
+          </motion.div>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-center mt-12"
+          >
+            <motion.a
+              href="https://wa.me/963123456789?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+            >
+              استفسر عن خدماتنا
+            </motion.a>
           </motion.div>
         </div>
       </section>
@@ -649,6 +688,25 @@ export default function DentalClinicLanding() {
               </motion.div>
             </motion.div>
           </div>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={doctorInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-12"
+          >
+            <motion.a
+              href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+            >
+              احجز استشارة الآن
+            </motion.a>
+          </motion.div>
         </div>
       </section>
 
@@ -697,6 +755,25 @@ export default function DentalClinicLanding() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+          
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.8 }}
+            className="text-center mt-12"
+          >
+            <motion.a
+              href="https://wa.me/963123456789?text=مرحباً، أرغب في الحصول على ابتسامة مثالية"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+            >
+              ابدأ رحلتك للتحول الآن
+            </motion.a>
           </motion.div>
         </div>
       </section>
