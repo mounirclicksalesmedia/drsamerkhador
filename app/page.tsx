@@ -89,12 +89,10 @@ export default function DentalClinicLanding() {
   const heroRef = useRef(null)
   const servicesRef = useRef(null)
   const doctorRef = useRef(null)
-  const casesRef = useRef(null)
   const testimonialsRef = useRef(null)
   
   const servicesInView = useInView(servicesRef, { once: true, margin: "-100px" })
   const doctorInView = useInView(doctorRef, { once: true, margin: "-100px" })
-  const casesInView = useInView(casesRef, { once: true, margin: "-100px" })
   const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" })
 
   const { scrollYProgress } = useScroll()
@@ -132,30 +130,6 @@ export default function DentalClinicLanding() {
     { icon: Users, label: "10000+ عميل سعيد", value: "الثقة" },
     { icon: Zap, label: "أحدث التقنيات", value: "الابتكار" },
     { icon: Heart, label: "التركيز على المريض", value: "الرعاية" },
-  ]
-
-  const beforeAfterCases = [
-    {
-      id: 1,
-      before: "/cases/IMG_3266.JPG",
-      after: "/cases/IMG_3267.JPG",
-      title: "تحول ابتسامة كامل",
-      description: "تحسين شامل للأسنان الأمامية"
-    },
-    {
-      id: 2,
-      before: "/cases/IMG_3304.png",
-      after: "/cases/IMG_3306.png",
-      title: "ترميم تجميلي متقدم",
-      description: "إعادة بناء وتجميل الأسنان"
-    },
-    {
-      id: 3,
-      before: "/cases/IMG_3307.png",
-      after: "/cases/IMG_3266.JPG",
-      title: "تصميم ابتسامة هوليود",
-      description: "نتائج استثنائية ومذهلة"
-    },
   ]
 
   const testimonials = [
@@ -284,8 +258,8 @@ export default function DentalClinicLanding() {
             transition={{ delay: 0.3 }}
             className="flex items-center gap-3"
           >
-            <div className="w-12 h-12 bg-linear-to-br from-indigo-500 to-violet-400 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">س خ</span>
+            <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
+              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-cover" />
             </div>
             <div>
               <h1 className="text-lg md:text-xl font-bold text-white luxury-text">د. سامر خضور</h1>
@@ -299,8 +273,8 @@ export default function DentalClinicLanding() {
             <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
               عن الدكتور
             </a>
-            <a href="#cases" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
-              الحالات
+            <a href="#testimonials" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              شهادات المرضى
             </a>
             <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
               اتصل بنا
@@ -465,7 +439,7 @@ export default function DentalClinicLanding() {
               >
                 <div className="w-full h-full bg-linear-to-b from-indigo-900/50 to-violet-900/30 rounded-3xl flex items-center justify-center relative overflow-hidden">
         <Image
-                    src="/dr.jpeg"
+                    src="/hero.jpeg"
                     alt="د. سامر خضور"
                     fill
                     className="object-cover rounded-3xl"
@@ -677,61 +651,8 @@ export default function DentalClinicLanding() {
         </div>
       </section>
 
-      {/* Cases Section - Before/After Sliders */}
-      <section id="cases" ref={casesRef} className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={casesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16 space-y-4"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">
-              تحولات تتحدث عن نفسها
-            </h2>
-            <p className="text-lg text-indigo-200 luxury-text">اسحب المؤشر لرؤية النتائج المذهلة</p>
-          </motion.div>
-
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={casesInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-3 gap-8"
-          >
-            {beforeAfterCases.map((caseItem, index) => (
-              <motion.div
-                key={caseItem.id}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
-                <BeforeAfterSlider
-                  before={caseItem.before}
-                  after={caseItem.after}
-                  title={caseItem.title}
-                  description={caseItem.description}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Instructions */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={casesInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.8 }}
-            className="text-center mt-12"
-          >
-            <div className="glass-indigo inline-block px-6 py-3 rounded-full">
-              <p className="text-indigo-200 text-sm">💡 اسحب الخط الأبيض لليمين أو اليسار لمشاهدة الفرق</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Testimonials with Before/After */}
-      <section ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
+      <section id="testimonials" ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
@@ -909,8 +830,8 @@ export default function DentalClinicLanding() {
                   </a>
                 </li>
                 <li>
-                  <a href="#cases" className="hover:text-indigo-300 transition">
-                    الحالات
+                  <a href="#testimonials" className="hover:text-indigo-300 transition">
+                    شهادات المرضى
                   </a>
                 </li>
                 <li>
