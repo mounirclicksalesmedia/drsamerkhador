@@ -31,7 +31,7 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
     <div className="space-y-4">
       <div
         ref={containerRef}
-        className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
+        className="relative w-full aspect-4/3 rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
         onMouseMove={handleMouseMove}
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
@@ -163,31 +163,22 @@ export default function DentalClinicLanding() {
       name: "سارة أحمد",
       text: "د. خضور حوّل ابتسامتي بما يفوق توقعاتي. الاهتمام بالتفاصيل والرعاية استثنائية!",
       rating: 5,
+      before: "/testimonials/sara/before.jpg",
+      after: "/testimonials/sara/after.jpg",
     },
     {
-      name: "محمد جونسون",
+      name: "شيخة محمد",
       text: "25 عاماً من الخبرة تظهر حقاً. محترف، لطيف، ونتائج تتحدث عن نفسها.",
       rating: 5,
+      before: "/testimonials/shaikhah/before.jpg",
+      after: "/testimonials/shaikhah/after.jpg",
     },
     {
-      name: "ليلى حسن",
+      name: "ستيفان ويلسون",
       text: "أفضل رعاية أسنان تلقيتها على الإطلاق. تكنولوجيا حديثة مع خبرة لا تصدق.",
       rating: 5,
-    },
-    {
-      name: "ديفيد مارتينيز",
-      text: "من الاستشارة إلى النتيجة النهائية، كل شيء كان مثالياً. أوصي بشدة بالدكتور خضور!",
-      rating: 5,
-    },
-    {
-      name: "فاطمة علي",
-      text: "فنان حقيقي في طب الأسنان الترميمي. ثقتي بنفسي ارتفعت بفضل عمله.",
-      rating: 5,
-    },
-    {
-      name: "جيمس ويلسون",
-      text: "رعاية عالمية المستوى مع لمسة شخصية. الفريق ودود والنتائج مذهلة.",
-      rating: 5,
+      before: "/testimonials/stafan/before.jpg",
+      after: "/testimonials/stafan/after.jpg",
     },
   ]
 
@@ -739,8 +730,8 @@ export default function DentalClinicLanding() {
         </div>
       </section>
 
-      {/* Testimonials Marquee */}
-      <section ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm overflow-hidden">
+      {/* Testimonials with Before/After */}
+      <section ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
@@ -751,32 +742,37 @@ export default function DentalClinicLanding() {
           <p className="text-lg text-indigo-200 luxury-text">استمع لمن اختبروا التحول</p>
         </motion.div>
 
-        <div className="relative">
+        <div className="max-w-6xl mx-auto">
           <motion.div
-            animate={{ x: [0, 1200] }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 30,
-                ease: "linear",
-              },
-            }}
-            className="flex gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate={testimonialsInView ? "visible" : "hidden"}
+            className="grid md:grid-cols-3 gap-8"
           >
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
-                whileHover={{ scale: 1.05 }}
-                className="glass-indigo p-6 rounded-2xl min-w-[350px] shrink-0"
+                variants={itemVariants}
+                whileHover={{ scale: 1.02 }}
+                className="space-y-4"
               >
-                <div className="flex gap-1 mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
-                  ))}
+                {/* Before/After Slider */}
+                <BeforeAfterSlider
+                  before={testimonial.before}
+                  after={testimonial.after}
+                  title={testimonial.name}
+                  description=""
+                />
+                
+                {/* Testimonial Card */}
+                <div className="glass-indigo p-6 rounded-2xl">
+                  <div className="flex gap-1 mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
+                    ))}
+                  </div>
+                  <p className="text-indigo-100 luxury-text italic text-sm">&ldquo;{testimonial.text}&rdquo;</p>
                 </div>
-                <p className="text-indigo-100 mb-4 luxury-text italic">&ldquo;{testimonial.text}&rdquo;</p>
-                <p className="font-semibold text-white">{testimonial.name}</p>
               </motion.div>
             ))}
           </motion.div>
