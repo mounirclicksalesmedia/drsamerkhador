@@ -256,15 +256,8 @@ export default function DentalClinicLanding() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex items-center gap-3"
           >
-            <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
-              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-cover" />
-            </div>
-            <div>
-              <h1 className="text-lg md:text-xl font-bold text-white luxury-text">د. سامر خضور</h1>
-              <p className="text-xs text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
-            </div>
+            <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
           </motion.div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
