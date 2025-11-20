@@ -189,7 +189,7 @@ export default function DentalClinicLanding() {
     <div className="w-full bg-linear-to-b from-indigo-950 via-indigo-900 to-violet-950 min-h-screen overflow-hidden">
       {/* WhatsApp Floating Button */}
       <a
-        href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
+        href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد"
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => gtag_report_conversion()}
@@ -258,7 +258,7 @@ export default function DentalClinicLanding() {
                 اتصل بنا
               </a>
               <a
-                href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
+                href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gtag_report_conversion()}
@@ -592,8 +592,8 @@ export default function DentalClinicLanding() {
               <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <Mail size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">البريد الإلكتروني</p>
-                <a href="mailto:info@drkhaddour.com" className="text-indigo-300 text-sm hover:underline">
-                  info@drkhaddour.com
+                <a href="mailto:Drsamerkhaddour@gmail.com" className="text-indigo-300 text-sm hover:underline">
+                  Drsamerkhaddour@gmail.com
                 </a>
               </div>
               <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
