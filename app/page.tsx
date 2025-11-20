@@ -12,23 +12,20 @@ declare global {
   }
 }
 
-function gtag_report_conversion(url?: string) {
-  const callback = function () {
-    if (typeof url !== "undefined") {
-      window.location.href = url;
+function gtag_report_conversion(url: string) {
+  // Track the conversion asynchronously
+  if (typeof window !== "undefined" && typeof window.gtag !== "undefined") {
+    try {
+      window.gtag("event", "conversion", {
+        send_to: "AW-17721537681/sMmWCIzIqMMbEJHppIJC",
+      });
+    } catch (error) {
+      console.error("Error tracking conversion:", error);
     }
-  };
-  
-  if (typeof window.gtag !== "undefined") {
-    window.gtag("event", "conversion", {
-      send_to: "AW-17721537681/sMmWCIzIqMMbEJHppIJC",
-      event_callback: callback,
-    });
-  } else {
-    // Fallback if gtag is not loaded yet
-    callback();
   }
-  return false;
+  
+  // Open WhatsApp immediately - don't wait for tracking
+  window.open(url, "_blank");
 }
 
 // Before/After Slider Component
