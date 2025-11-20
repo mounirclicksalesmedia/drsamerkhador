@@ -1,7 +1,7 @@
 "use client"
 
 import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle, Star } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import Image from "next/image"
 
 // Google Ads Conversion Tracking
@@ -24,33 +24,58 @@ function gtag_report_conversion() {
   }
 }
 
-// Before/After Slider Component
-function BeforeAfterSlider({ before, after, title, description }: { before: string; after: string; title: string; description: string }) {
+// Before/After Slider - Stable version with no render loops
+function BeforeAfterSlider({ before, after, title }: { before: string; after: string; title: string; description?: string }) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const rafRef = useRef<number | null>(null)
 
-  const handleMove = (clientX: number) => {
+  const handleMove = useCallback((clientX: number) => {
+    if (!containerRef.current) return
+    
+    // Cancel any pending animation frame
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current)
+    }
+    
+    // Use requestAnimationFrame to prevent excessive updates
+    rafRef.current = requestAnimationFrame(() => {
     if (!containerRef.current) return
     const rect = containerRef.current.getBoundingClientRect()
     const x = clientX - rect.left
-    const percentage = (x / rect.width) * 100
-    setSliderPosition(Math.max(0, Math.min(100, percentage)))
-  }
+      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100))
+      setSliderPosition(percentage)
+    })
+  }, [])
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging) handleMove(e.clientX)
-  }
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isDragging) {
+      e.preventDefault()
+      handleMove(e.clientX)
+    }
+  }, [isDragging, handleMove])
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (isDragging) handleMove(e.touches[0].clientX)
-  }
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (isDragging) {
+      e.preventDefault()
+      handleMove(e.touches[0].clientX)
+    }
+  }, [isDragging, handleMove])
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="space-y-4">
       <div
         ref={containerRef}
-        className="relative w-full aspect-4/3 rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
+        className="relative w-full aspect-4/3 rounded-2xl overflow-hidden touch-none select-none glass-indigo p-1"
         onMouseMove={handleMouseMove}
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
@@ -65,12 +90,12 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
             src={after} 
             alt="بعد" 
             fill 
-            className="object-cover"
+            className="object-cover pointer-events-none"
             loading="lazy"
-            quality={75}
+            quality={70}
             sizes="(max-width: 768px) 100vw, 33vw"
           />
-          <div className="absolute top-4 left-4 bg-indigo-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-4 left-4 bg-indigo-500/90 text-white px-3 py-1 rounded-full text-sm font-semibold pointer-events-none">
             بعد
           </div>
         </div>
@@ -84,19 +109,19 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
             src={before} 
             alt="قبل" 
             fill 
-            className="object-cover"
+            className="object-cover pointer-events-none"
             loading="lazy"
-            quality={75}
+            quality={70}
             sizes="(max-width: 768px) 100vw, 33vw"
           />
-          <div className="absolute top-4 right-4 bg-violet-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-4 right-4 bg-violet-500/90 text-white px-3 py-1 rounded-full text-sm font-semibold pointer-events-none">
             قبل
           </div>
         </div>
 
         {/* Slider Line */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
+          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg pointer-events-none"
           style={{ left: `${sliderPosition}%` }}
         >
           {/* Slider Handle */}
@@ -109,9 +134,8 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
         </div>
       </div>
 
-      <div className="text-center space-y-2">
+      <div className="text-center">
         <h3 className="text-xl font-bold text-white">{title}</h3>
-        <p className="text-sm text-indigo-200">{description}</p>
       </div>
     </div>
   )
@@ -119,7 +143,6 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
 
 export default function DentalClinicLanding() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const services = [
     {
@@ -226,7 +249,7 @@ export default function DentalClinicLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="transition-opacity duration-500">
             <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
-          </div>
+            </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
               الخدمات
@@ -322,15 +345,15 @@ export default function DentalClinicLanding() {
               <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-20"></div>
               <div className="relative glass-indigo p-1 w-full h-96 overflow-hidden hover:scale-[1.02] transition-transform duration-300">
                 <div className="w-full h-full bg-linear-to-b from-indigo-900/50 to-violet-900/30 rounded-3xl flex items-center justify-center relative overflow-hidden">
-                  <Image
+        <Image
                     src="/hero.jpeg"
                     alt="د. سامر خضور"
                     fill
                     className="object-cover rounded-3xl"
-                    priority
+          priority
                     quality={80}
                     sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+        />
                   <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-indigo-950/90 via-indigo-900/70 to-transparent p-6">
                     <h3 className="text-2xl font-bold text-white">د. سامر خضور</h3>
                     <p className="text-sm text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
@@ -532,11 +555,11 @@ export default function DentalClinicLanding() {
                 
                 {/* Testimonial Card */}
                 <div className="glass-indigo p-6 rounded-2xl">
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
-                    ))}
-                  </div>
+                <div className="flex gap-1 mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
+                  ))}
+                </div>
                   <p className="text-indigo-100 luxury-text italic text-sm">&ldquo;{testimonial.text}&rdquo;</p>
                 </div>
               </div>
