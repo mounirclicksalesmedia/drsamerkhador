@@ -10,8 +10,59 @@ function gtag_report_conversion() {
   // Temporarily disabled
 }
 
-// Before/After Slider Component
+// Before/After Display - Mobile: Static Grid, Desktop: Interactive Slider
 function BeforeAfterSlider({ before, after, title, description }: { before: string; after: string; title: string; description: string }) {
+  return (
+    <div className="space-y-4">
+      {/* MOBILE: Simple side-by-side (NO JavaScript, NO state) */}
+      <div className="md:hidden">
+        <div className="grid grid-cols-2 gap-2 glass-indigo p-1 rounded-2xl">
+          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+            <Image 
+              src={before} 
+              alt="قبل" 
+              fill 
+              className="object-cover"
+              loading="lazy"
+              quality={70}
+              sizes="50vw"
+            />
+            <div className="absolute top-2 right-2 bg-violet-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+              قبل
+            </div>
+          </div>
+          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+            <Image 
+              src={after} 
+              alt="بعد" 
+              fill 
+              className="object-cover"
+              loading="lazy"
+              quality={70}
+              sizes="50vw"
+            />
+            <div className="absolute top-2 left-2 bg-indigo-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+              بعد
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP: Interactive slider */}
+      <div className="hidden md:block">
+        <DesktopSlider before={before} after={after} />
+      </div>
+
+      <div className="text-center space-y-2">
+        <h3 className="text-xl font-bold text-white">{title}</h3>
+        <p className="text-sm text-indigo-200">{description}</p>
+      </div>
+    </div>
+  )
+}
+
+// Desktop-only interactive slider (completely hidden on mobile)
+function DesktopSlider({ before, after }: { before: string; after: string }) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -28,76 +79,58 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
     if (isDragging) handleMove(e.clientX)
   }
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (isDragging) handleMove(e.touches[0].clientX)
-  }
-
   return (
-    <div className="space-y-4">
-      <div
-        ref={containerRef}
-        className="relative w-full aspect-4/3 rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
-        onMouseMove={handleMouseMove}
-        onMouseDown={() => setIsDragging(true)}
-        onMouseUp={() => setIsDragging(false)}
-        onMouseLeave={() => setIsDragging(false)}
-        onTouchMove={handleTouchMove}
-        onTouchStart={() => setIsDragging(true)}
-        onTouchEnd={() => setIsDragging(false)}
-      >
-        {/* After Image (Base) */}
-        <div className="absolute inset-0 rounded-xl overflow-hidden">
-          <Image 
-            src={after} 
-            alt="بعد" 
-            fill 
-            className="object-cover"
-            loading="lazy"
-            quality={75}
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-          <div className="absolute top-4 left-4 bg-indigo-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-            بعد
-          </div>
-        </div>
-
-        {/* Before Image (Clipped) */}
-        <div
-          className="absolute inset-0 rounded-xl overflow-hidden"
-          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-        >
-          <Image 
-            src={before} 
-            alt="قبل" 
-            fill 
-            className="object-cover"
-            loading="lazy"
-            quality={75}
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-          <div className="absolute top-4 right-4 bg-violet-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-            قبل
-          </div>
-        </div>
-
-        {/* Slider Line */}
-        <div
-          className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
-          style={{ left: `${sliderPosition}%` }}
-        >
-          {/* Slider Handle */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center">
-            <div className="flex gap-1">
-              <div className="w-0.5 h-6 bg-indigo-500"></div>
-              <div className="w-0.5 h-6 bg-indigo-500"></div>
-            </div>
-          </div>
+    <div
+      ref={containerRef}
+      className="relative w-full aspect-4/3 rounded-2xl overflow-hidden select-none glass-indigo p-1"
+      onMouseMove={handleMouseMove}
+      onMouseDown={() => setIsDragging(true)}
+      onMouseUp={() => setIsDragging(false)}
+      onMouseLeave={() => setIsDragging(false)}
+    >
+      <div className="absolute inset-0 rounded-xl overflow-hidden">
+        <Image 
+          src={after} 
+          alt="بعد" 
+          fill 
+          className="object-cover"
+          loading="lazy"
+          quality={80}
+          sizes="33vw"
+        />
+        <div className="absolute top-4 left-4 bg-indigo-500/90 text-white px-3 py-1 rounded-full text-sm font-bold">
+          بعد
         </div>
       </div>
 
-      <div className="text-center space-y-2">
-        <h3 className="text-xl font-bold text-white">{title}</h3>
-        <p className="text-sm text-indigo-200">{description}</p>
+      <div
+        className="absolute inset-0 rounded-xl overflow-hidden"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
+        <Image 
+          src={before} 
+          alt="قبل" 
+          fill 
+          className="object-cover"
+          loading="lazy"
+          quality={80}
+          sizes="33vw"
+        />
+        <div className="absolute top-4 right-4 bg-violet-500/90 text-white px-3 py-1 rounded-full text-sm font-bold">
+          قبل
+        </div>
+      </div>
+
+      <div
+        className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
+        style={{ left: `${sliderPosition}%` }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center">
+          <div className="flex gap-1">
+            <div className="w-0.5 h-5 bg-indigo-500"></div>
+            <div className="w-0.5 h-5 bg-indigo-500"></div>
+          </div>
+        </div>
       </div>
     </div>
   )
