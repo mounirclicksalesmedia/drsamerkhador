@@ -12,16 +12,17 @@ declare global {
 }
 
 function gtag_report_conversion() {
-  // Track the conversion asynchronously without blocking navigation
-  if (typeof window !== "undefined" && typeof window.gtag !== "undefined") {
+  // DISABLED ON MOBILE - Only track on desktop to prevent refresh loops
+  if (typeof window !== "undefined" && window.innerWidth >= 768 && typeof window.gtag !== "undefined") {
     try {
       window.gtag("event", "conversion", {
         send_to: "AW-17721537681/sMmWCIzIqMMbEJHppIJC",
       });
     } catch (error) {
-      console.error("Error tracking conversion:", error);
+      // Silently fail - don't block navigation
     }
   }
+  // On mobile: do nothing, just let the link work normally
 }
 
 // Before/After Slider - MOBILE SAFE VERSION

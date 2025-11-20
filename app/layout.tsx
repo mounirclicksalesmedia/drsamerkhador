@@ -25,15 +25,19 @@ export default function RootLayout({
         className={`${notoKufiArabic.variable} antialiased font-sans`}
       >
         {children}
-        {/* Google Tag - Disabled on mobile for testing */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17721537681"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
+        {/* Google Tag - Completely removed from mobile to prevent refresh loops */}
+        {/* Scripts only loaded on desktop (>= 768px) */}
+        <Script id="google-tag-loader" strategy="lazyOnload">
           {`
-            // Only load on desktop for testing
+            // Only load Google Tag scripts on desktop
             if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+              // Load gtag.js script
+              const script = document.createElement('script');
+              script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17721537681';
+              script.async = true;
+              document.head.appendChild(script);
+              
+              // Initialize dataLayer and gtag
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
