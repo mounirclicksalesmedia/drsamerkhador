@@ -2,7 +2,7 @@
 
 import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle, Star } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 
 // Google Ads Conversion Tracking
@@ -23,41 +23,6 @@ function gtag_report_conversion() {
       console.error("Error tracking conversion:", error);
     }
   }
-}
-
-// Detect mobile device - with proper SSR handling
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add resize listener with debounce
-    let timeoutId: NodeJS.Timeout;
-    const debouncedCheck = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(checkMobile, 150);
-    };
-    
-    window.addEventListener('resize', debouncedCheck);
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', debouncedCheck);
-    };
-  }, []);
-  
-  // Return false during SSR and initial render to prevent hydration mismatch
-  if (!mounted) return false;
-  
-  return isMobile;
 }
 
 // Before/After Slider Component
@@ -155,12 +120,6 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
 
 export default function DentalClinicLanding() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-  const [mounted, setMounted] = useState(false)
-  const isMobile = useIsMobile()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const heroRef = useRef(null)
   const servicesRef = useRef(null)
@@ -170,19 +129,6 @@ export default function DentalClinicLanding() {
   const servicesInView = useInView(servicesRef, { once: true, margin: "-100px", amount: 0.1 })
   const doctorInView = useInView(doctorRef, { once: true, margin: "-100px", amount: 0.1 })
   const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px", amount: 0.1 })
-
-  // Disable scroll transform on mobile for performance
-  const { scrollYProgress } = useScroll()
-  const y = isMobile ? 0 : useTransform(scrollYProgress, [0, 1], [0, -50])
-
-  // Show loading state briefly to prevent hydration issues
-  if (!mounted) {
-    return (
-      <div className="w-full min-h-screen bg-linear-to-b from-indigo-950 via-indigo-900 to-violet-950 flex items-center justify-center">
-        <div className="text-white text-xl">جاري التحميل...</div>
-      </div>
-    )
-  }
 
   const services = [
     {
@@ -370,57 +316,55 @@ export default function DentalClinicLanding() {
 
       {/* Hero Section */}
       <section ref={heroRef} className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Animated Background Elements - Disabled on mobile for performance */}
-        {!isMobile && (
-          <>
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 90, 0],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"
-            ></motion.div>
-            <motion.div
-              animate={{
-                scale: [1, 1.3, 1],
-                rotate: [0, -90, 0],
-              }}
-              transition={{
-                duration: 25,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute bottom-0 right-20 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
-            ></motion.div>
+        {/* Animated Background Elements - Hidden on mobile for performance */}
+        <div className="hidden md:block">
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              rotate: [0, 90, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"
+          ></motion.div>
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 1],
+              rotate: [0, -90, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute bottom-0 right-20 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
+          ></motion.div>
 
-            {/* Floating Particles */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-indigo-400/30 rounded-full"
-                animate={{
-                  y: [0, -100, 0],
-                  x: [0, Math.random() * 100 - 50, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: 5 + i,
-                  repeat: Infinity,
-                  delay: i * 0.5,
-                }}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-              />
-            ))}
-          </>
-        )}
+          {/* Floating Particles */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-indigo-400/30 rounded-full"
+              animate={{
+                y: [0, -100, 0],
+                x: [0, Math.random() * 100 - 50, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: 5 + i,
+                repeat: Infinity,
+                delay: i * 0.5,
+              }}
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+            />
+          ))}
+        </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -703,19 +647,17 @@ export default function DentalClinicLanding() {
         ref={doctorRef}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-indigo-900/50 to-violet-900/50 relative overflow-hidden"
       >
-        {!isMobile && (
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-            }}
-            className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"
-          ></motion.div>
-        )}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+          }}
+          className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl hidden md:block"
+        ></motion.div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
