@@ -305,7 +305,7 @@ export default function DentalClinicLanding() {
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <a
-                  href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
+                  href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => gtag_report_conversion()}
@@ -314,7 +314,7 @@ export default function DentalClinicLanding() {
                   احجز استشارة
                 </a>
                 <a
-                  href="https://wa.me/963123456789?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
+                  href="https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => gtag_report_conversion()}
@@ -605,14 +605,14 @@ export default function DentalClinicLanding() {
               <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <Phone size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">الهاتف</p>
-                <a href="tel:+963123456789" className="text-indigo-300 text-sm hover:underline" dir="ltr">
-                  +963 (12) 345-6789
+                <a href="tel:+96566928651" className="text-indigo-300 text-sm hover:underline" dir="ltr">
+                  +965 6692 8651
                 </a>
               </div>
               <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <MapPin size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">الموقع</p>
-                <p className="text-indigo-100 text-sm">دمشق، سوريا</p>
+                <p className="text-indigo-100 text-sm">السالمية، برج ليلى، الطابق 6، شارع سالم المبارك 4، السالمية 20010، الكويت</p>
               </div>
             </div>
 
@@ -676,13 +676,11 @@ export default function DentalClinicLanding() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-lg mb-4 text-indigo-300">ساعات العمل</h4>
+              <h4 className="font-bold text-lg mb-4 text-indigo-300">اتصل بنا</h4>
               <p className="text-sm text-indigo-200">
-                الإثنين - الجمعة: 9 صباحاً - 6 مساءً
+                <strong>الهاتف:</strong> +965 6692 8651
                 <br />
-                السبت: 10 صباحاً - 4 مساءً
-                <br />
-                الأحد: مغلق
+                <strong>العنوان:</strong> السالمية، برج ليلى، الطابق 6، شارع سالم المبارك 4، السالمية 20010، الكويت
               </p>
             </div>
           </div>
