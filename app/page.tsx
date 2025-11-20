@@ -237,18 +237,18 @@ export default function DentalClinicLanding() {
         </div>
       </a>
 
-      {/* Navigation - Mobile Safe Version */}
+      {/* Navigation - Now with OPTIMIZED logo! */}
       <nav className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          {/* MOBILE: Just text (NO LOGO - Image component causes crash!) */}
+          {/* MOBILE: Logo works now (optimized to 500x300, 26KB!) */}
           <div className="md:hidden">
-            <h1 className="text-white text-xl font-bold">د. سامر خضور</h1>
+            <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={72} className="object-contain" />
           </div>
           
           {/* DESKTOP: Full navigation with logo */}
           <div className="hidden md:flex justify-between items-center">
             <div>
-              <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
+              <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={72} className="object-contain" />
             </div>
             <div className="flex items-center gap-8">
               <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
