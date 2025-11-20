@@ -240,37 +240,37 @@ export default function DentalClinicLanding() {
       {/* Navigation - Mobile Safe Version */}
       <nav className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          {/* MOBILE: Simple logo only (like test-nav-1 that works!) */}
+          {/* MOBILE: Just text (NO LOGO - Image component causes crash!) */}
           <div className="md:hidden">
-            <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
-            </div>
+            <h1 className="text-white text-xl font-bold">د. سامر خضور</h1>
+          </div>
           
-          {/* DESKTOP: Full navigation */}
+          {/* DESKTOP: Full navigation with logo */}
           <div className="hidden md:flex justify-between items-center">
             <div>
               <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
             </div>
             <div className="flex items-center gap-8">
               <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-              الخدمات
-            </a>
+                الخدمات
+              </a>
               <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-              عن الدكتور
-            </a>
+                عن الدكتور
+              </a>
               <a href="#testimonials" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
                 شهادات المرضى
-            </a>
+              </a>
               <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-              اتصل بنا
-            </a>
+                اتصل بنا
+              </a>
               <a
                 href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gtag_report_conversion()}
                 className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold text-sm"
-            >
-              احجز الآن
+              >
+                احجز الآن
               </a>
             </div>
           </div>
