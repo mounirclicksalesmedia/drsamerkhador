@@ -25,18 +25,37 @@ function gtag_report_conversion() {
   }
 }
 
-// Detect mobile device
+// Detect mobile device - with proper SSR handling
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
     };
+    
+    // Initial check
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    
+    // Add resize listener with debounce
+    let timeoutId: NodeJS.Timeout;
+    const debouncedCheck = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(checkMobile, 150);
+    };
+    
+    window.addEventListener('resize', debouncedCheck);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', debouncedCheck);
+    };
   }, []);
+  
+  // Return false during SSR and initial render to prevent hydration mismatch
+  if (!mounted) return false;
   
   return isMobile;
 }
@@ -136,19 +155,34 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
 
 export default function DentalClinicLanding() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
+  const [mounted, setMounted] = useState(false)
   const isMobile = useIsMobile()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const heroRef = useRef(null)
   const servicesRef = useRef(null)
   const doctorRef = useRef(null)
   const testimonialsRef = useRef(null)
   
-  const servicesInView = useInView(servicesRef, { once: true, margin: "-100px" })
-  const doctorInView = useInView(doctorRef, { once: true, margin: "-100px" })
-  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px" })
+  const servicesInView = useInView(servicesRef, { once: true, margin: "-100px", amount: 0.1 })
+  const doctorInView = useInView(doctorRef, { once: true, margin: "-100px", amount: 0.1 })
+  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px", amount: 0.1 })
 
+  // Disable scroll transform on mobile for performance
   const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+  const y = isMobile ? 0 : useTransform(scrollYProgress, [0, 1], [0, -50])
+
+  // Show loading state briefly to prevent hydration issues
+  if (!mounted) {
+    return (
+      <div className="w-full min-h-screen bg-linear-to-b from-indigo-950 via-indigo-900 to-violet-950 flex items-center justify-center">
+        <div className="text-white text-xl">جاري التحميل...</div>
+      </div>
+    )
+  }
 
   const services = [
     {
