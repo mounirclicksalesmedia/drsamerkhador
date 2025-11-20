@@ -12,6 +12,9 @@ const notoKufiArabic = Noto_Kufi_Arabic({
 export const metadata: Metadata = {
   title: "د. سامر خضور - طب الأسنان التجميلي والترميمي",
   description: "عيادة د. سامر خضور المتخصصة في طب الأسنان التجميلي والترميمي - 25 عام من الخبرة والتميز",
+  other: {
+    'cache-control': 'no-store, no-cache, must-revalidate',
+  },
 };
 
 export default function RootLayout({

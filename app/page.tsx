@@ -1,7 +1,7 @@
 "use client"
 
 import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle, Star } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 
 // Google Ads Conversion Tracking - DISABLED for testing
