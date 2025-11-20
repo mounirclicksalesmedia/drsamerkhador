@@ -2,7 +2,6 @@
 
 import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle, Star } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 
 // Google Ads Conversion Tracking
@@ -120,15 +119,7 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
 
 export default function DentalClinicLanding() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-
-  const heroRef = useRef(null)
-  const servicesRef = useRef(null)
-  const doctorRef = useRef(null)
-  const testimonialsRef = useRef(null)
-  
-  const servicesInView = useInView(servicesRef, { once: true, margin: "-100px", amount: 0.1 })
-  const doctorInView = useInView(doctorRef, { once: true, margin: "-100px", amount: 0.1 })
-  const testimonialsInView = useInView(testimonialsRef, { once: true, margin: "-100px", amount: 0.1 })
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const services = [
     {
@@ -182,55 +173,19 @@ export default function DentalClinicLanding() {
     },
   ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  }
-
   return (
     <div className="w-full bg-linear-to-b from-indigo-950 via-indigo-900 to-violet-950 min-h-screen overflow-hidden">
       {/* WhatsApp Floating Button */}
-      <motion.a
+      <a
         href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => gtag_report_conversion()}
-        className="fixed bottom-6 right-6 z-50 group"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5, type: "spring" }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 active:scale-90"
       >
-        {/* Pulsing Ring Animation */}
-        <motion.div
-          className="absolute inset-0 rounded-full bg-green-500/30"
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.5, 0, 0.5],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        {/* Pulsing Ring Animation - CSS only */}
+        <div
+          className="absolute inset-0 rounded-full bg-green-500/30 animate-ping"
         />
         
         {/* Main Button */}
@@ -246,18 +201,11 @@ export default function DentalClinicLanding() {
           </svg>
 
           {/* Notification Badge */}
-          <motion.div
-            className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-indigo-950 flex items-center justify-center"
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-            }}
+          <div
+            className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-indigo-950 flex items-center justify-center animate-bounce"
           >
             <span className="text-white text-xs font-bold">1</span>
-          </motion.div>
+          </div>
         </div>
 
         {/* Tooltip */}
@@ -269,23 +217,16 @@ export default function DentalClinicLanding() {
             </div>
           </div>
         </div>
-      </motion.a>
+      </a>
 
       {/* Navigation */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none"
+      <nav
+        className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none transition-all duration-500"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
+          <div className="transition-opacity duration-500">
             <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
-          </motion.div>
+          </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
               الخدمات
@@ -299,150 +240,68 @@ export default function DentalClinicLanding() {
             <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
               اتصل بنا
             </a>
-            <motion.a
+            <a
               href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold hover:shadow-xl transition duration-300 text-sm inline-block"
+              className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 text-sm inline-block hover:scale-105 active:scale-95"
             >
               احجز الآن
-            </motion.a>
+            </a>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Animated Background Elements - Hidden on mobile for performance */}
-        <div className="hidden md:block">
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 90, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"
-          ></motion.div>
-          <motion.div
-            animate={{
-              scale: [1, 1.3, 1],
-              rotate: [0, -90, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute bottom-0 right-20 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
-          ></motion.div>
-
-          {/* Floating Particles */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-indigo-400/30 rounded-full"
-              animate={{
-                y: [0, -100, 0],
-                x: [0, Math.random() * 100 - 50, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 5 + i,
-                repeat: Infinity,
-                delay: i * 0.5,
-              }}
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-            />
-          ))}
-        </div>
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Static Background Elements */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-20 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Hero Text */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
+            <div className="space-y-8 animate-fade-in-up">
               <div className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="inline-block px-4 py-2 glass rounded-full"
-                >
+                <div className="inline-block px-4 py-2 glass rounded-full transition-transform hover:scale-105">
                   <span className="text-indigo-200 text-sm font-semibold">✨ رعاية أسنان فاخرة</span>
-                </motion.div>
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="text-5xl md:text-6xl font-bold text-white luxury-text leading-tight"
-                >
+                </div>
+                <h1 className="text-5xl md:text-6xl font-bold text-white luxury-text leading-tight">
                   ابتسامتك،
                   <br />
                   <span className="bg-linear-to-r from-indigo-300 via-violet-300 to-indigo-400 bg-clip-text text-transparent">
                     بكل إتقان
                   </span>
-                </motion.h1>
+                </h1>
               </div>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="text-lg text-indigo-100 luxury-text leading-relaxed"
-              >
+              <p className="text-lg text-indigo-100 luxury-text leading-relaxed">
                 اختبر رعاية أسنان عالمية المستوى مع د. سامر خضور، خبير متميز في طب الأسنان الترميمي والتجميلي مع 25 عاماً من التميز من جامعة دمشق.
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="flex flex-col sm:flex-row gap-4 pt-4"
-              >
-                <motion.a
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <a
                   href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => gtag_report_conversion()}
-                  whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-bold hover:shadow-2xl transition duration-300 text-center"
+                  className="px-8 py-4 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 text-center hover:scale-105 active:scale-95"
                 >
                   احجز استشارة
-                </motion.a>
-                <motion.a
+                </a>
+                <a
                   href="https://wa.me/963123456789?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => gtag_report_conversion()}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 glass text-white rounded-full font-semibold hover:bg-white/20 transition text-center"
+                  className="px-8 py-4 glass text-white rounded-full font-semibold hover:bg-white/20 transition-all text-center hover:scale-105 active:scale-95"
                 >
                   تواصل معنا
-                </motion.a>
-              </motion.div>
+                </a>
+              </div>
 
               {/* Stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex gap-8 pt-8 border-t border-indigo-200/30"
-              >
+              <div className="flex gap-8 pt-8 border-t border-indigo-200/30">
                 <div>
                   <p className="text-3xl font-bold text-indigo-300">10000+</p>
                   <p className="text-sm text-indigo-200">مريض سعيد</p>
@@ -455,32 +314,23 @@ export default function DentalClinicLanding() {
                   <p className="text-3xl font-bold text-indigo-300">99%</p>
                   <p className="text-sm text-indigo-200">نسبة الرضا</p>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Doctor Card with Glass Effect */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative h-96 md:h-full min-h-96 flex items-center justify-center"
-            >
+            <div className="relative h-96 md:h-full min-h-96 flex items-center justify-center animate-fade-in-up animation-delay-200">
               <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-20"></div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-                className="relative glass-indigo p-1 w-full h-96 overflow-hidden"
-              >
+              <div className="relative glass-indigo p-1 w-full h-96 overflow-hidden hover:scale-[1.02] transition-transform duration-300">
                 <div className="w-full h-full bg-linear-to-b from-indigo-900/50 to-violet-900/30 rounded-3xl flex items-center justify-center relative overflow-hidden">
-        <Image
+                  <Image
                     src="/hero.jpeg"
                     alt="د. سامر خضور"
                     fill
                     className="object-cover rounded-3xl"
-          priority
-          quality={80}
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
+                    priority
+                    quality={80}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                   <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-indigo-950/90 via-indigo-900/70 to-transparent p-6">
                     <h3 className="text-2xl font-bold text-white">د. سامر خضور</h3>
                     <p className="text-sm text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
@@ -491,234 +341,143 @@ export default function DentalClinicLanding() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="py-16 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm"
-      >
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-4 gap-6"
-          >
+          <div className="grid md:grid-cols-4 gap-6">
             {features.map((feature, index) => {
               const Icon = feature.icon
               return (
-                <motion.div
+                <div
                   key={index}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="glass rounded-2xl p-6 hover:bg-white/10 transition text-center"
+                  className="glass rounded-2xl p-6 hover:bg-white/10 transition-all text-center hover:scale-105 hover:-translate-y-1 duration-300"
                 >
                   <Icon className="w-8 h-8 text-indigo-300 mx-auto mb-4" />
                   <p className="text-sm text-indigo-200 mb-2">{feature.label}</p>
                   <p className="text-2xl font-bold text-white">{feature.value}</p>
-                </motion.div>
+                </div>
               )
             })}
-          </motion.div>
+          </div>
           
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mt-12"
-          >
-            <motion.a
+          <div className="text-center mt-12">
+            <a
               href="https://wa.me/963123456789?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               تواصل معنا عبر واتساب
-            </motion.a>
-          </motion.div>
+            </a>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Services Section */}
-      <section id="services" ref={servicesRef} className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"></div>
+      <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={servicesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16 space-y-4"
-          >
+          <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">خدماتنا المميزة</h2>
             <p className="text-lg text-indigo-200 luxury-text">تميز طبي شامل مصمم خصيصاً لاحتياجاتك</p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={servicesInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-2 gap-6"
-          >
+          <div className="grid md:grid-cols-2 gap-6">
             {services.map((service, index) => (
-              <motion.div
+              <div
                 key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(99, 102, 241, 0.2)" }}
-                className="glass-indigo p-8 transition duration-300 cursor-pointer"
+                className="glass-indigo p-8 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl group"
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <motion.div
-                  animate={{ rotate: hoveredCard === index ? 360 : 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-5xl mb-4"
-                >
+                <div className="text-5xl mb-4 group-hover:rotate-360 transition-transform duration-500">
                   {service.icon}
-                </motion.div>
+                </div>
                 <h3 className="text-2xl font-bold text-white mb-2">{service.title}</h3>
                 <p className="text-indigo-200 mb-4 luxury-text">{service.description}</p>
                 <div className="space-y-2">
                   {service.features.map((feature, i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={hoveredCard === index ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-2"
                     >
                       <CheckCircle size={16} className="text-indigo-300" />
                       <span className="text-sm text-indigo-100">{feature}</span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
                 {hoveredCard === index && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 pt-4 border-t border-indigo-200/50 flex items-center gap-2 text-indigo-300 font-semibold text-sm"
-                  >
+                  <div className="mt-4 pt-4 border-t border-indigo-200/50 flex items-center gap-2 text-indigo-300 font-semibold text-sm animate-fade-in">
                     <ArrowRight size={16} className="rotate-180" />
                     اعرف المزيد
-                  </motion.div>
+                  </div>
                 )}
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
           
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={servicesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.8 }}
-            className="text-center mt-12"
-          >
-            <motion.a
+          <div className="text-center mt-12">
+            <a
               href="https://wa.me/963123456789?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               استفسر عن خدماتنا
-            </motion.a>
-          </motion.div>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Doctor Section */}
       <section
         id="doctor"
-        ref={doctorRef}
         className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-indigo-900/50 to-violet-900/50 relative overflow-hidden"
       >
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-          }}
-          className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl hidden md:block"
-        ></motion.div>
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl hidden md:block animate-pulse"></div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={doctorInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <h2 className="text-4xl font-bold text-white luxury-text">تعرّف على د. سامر خضور</h2>
               <p className="text-lg text-indigo-100 luxury-text leading-relaxed">
                 خريج متميز من جامعة دمشق مع 25 عاماً من الخبرة في طب الأسنان الترميمي والتجميلي. يجمع د. خضور بين التميز الأكاديمي والإتقان السريري لتقديم رعاية أسنان متحولة.
               </p>
 
               <div className="space-y-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.2 }}
-                  className="glass p-4 rounded-xl"
-                >
+                <div className="glass p-4 rounded-xl transition-transform hover:translate-y-1 duration-300">
                   <p className="font-semibold text-white mb-1">🎓 التعليم والمؤهلات</p>
                   <p className="text-sm text-indigo-100">
                     دكتور في جراحة الأسنان (DDS)، دبلوم، ماجستير في العلوم (MDS)، ودكتوراه في طب الأسنان الترميمي والتجميلي - جامعة دمشق
                   </p>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.3 }}
-                  className="glass p-4 rounded-xl"
-                >
+                </div>
+                <div className="glass p-4 rounded-xl transition-transform hover:translate-y-1 duration-300">
                   <p className="font-semibold text-white mb-1">🏆 الإنجازات</p>
                   <p className="text-sm text-indigo-100">
                     أستاذ مشارك في جامعة دمشق، عضو ومتحدث في الجمعية الدولية لأبحاث طب الأسنان (IADR) الولايات المتحدة، عضو في الأكاديمية الأمريكية لطب الأسنان التجميلي
                   </p>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={doctorInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.4 }}
-                  className="glass p-4 rounded-xl"
-                >
+                </div>
+                <div className="glass p-4 rounded-xl transition-transform hover:translate-y-1 duration-300">
                   <p className="font-semibold text-white mb-1">💫 الفلسفة</p>
                   <p className="text-sm text-indigo-100">
                     الجمع بين المعرفة الأكاديمية المتقدمة والدقة الفنية لخلق ابتسامات جميلة ودائمة تحوّل الحياة
                   </p>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={doctorInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-30"></div>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="glass-indigo p-1 rounded-3xl overflow-hidden relative"
-              >
+              <div className="glass-indigo p-1 rounded-3xl overflow-hidden relative hover:scale-[1.02] transition-transform duration-300">
                 <div className="aspect-square bg-linear-to-br from-indigo-900 to-violet-900 rounded-3xl relative overflow-hidden">
                   <Image 
                     src="/dr.jpeg" 
@@ -730,57 +489,38 @@ export default function DentalClinicLanding() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
           
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={doctorInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6 }}
-            className="text-center mt-12"
-          >
-            <motion.a
+          <div className="text-center mt-12">
+            <a
               href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               احجز استشارة الآن
-            </motion.a>
-          </motion.div>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Testimonials with Before/After */}
-      <section id="testimonials" ref={testimonialsRef} className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 space-y-4"
-        >
+      <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
+        <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">شهادات المرضى</h2>
           <p className="text-lg text-indigo-200 luxury-text">استمع لمن اختبروا التحول</p>
-        </motion.div>
+        </div>
 
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={testimonialsInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-3 gap-8"
-          >
+          <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <motion.div
+              <div
                 key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                className="space-y-4"
+                className="space-y-4 hover:scale-[1.02] transition-transform duration-300"
               >
                 {/* Before/After Slider */}
                 <BeforeAfterSlider
@@ -799,43 +539,30 @@ export default function DentalClinicLanding() {
                   </div>
                   <p className="text-indigo-100 luxury-text italic text-sm">&ldquo;{testimonial.text}&rdquo;</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
           
           {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.8 }}
-            className="text-center mt-12"
-          >
-            <motion.a
+          <div className="text-center mt-12">
+            <a
               href="https://wa.me/963123456789?text=مرحباً، أرغب في الحصول على ابتسامة مثالية"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition duration-300"
+              className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               ابدأ رحلتك للتحول الآن
-            </motion.a>
-          </motion.div>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="max-w-6xl mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="glass-indigo p-12 rounded-3xl space-y-8"
-          >
+          <div className="glass-indigo p-12 rounded-3xl space-y-8">
             <div className="space-y-4">
               <h2 className="text-4xl font-bold text-white luxury-text">جاهز للتحوّل؟</h2>
               <p className="text-lg text-indigo-100 luxury-text">
@@ -843,52 +570,38 @@ export default function DentalClinicLanding() {
               </p>
             </div>
 
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-6 mb-8"
-            >
-              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <Mail size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">البريد الإلكتروني</p>
                 <a href="mailto:info@drkhaddour.com" className="text-indigo-300 text-sm hover:underline">
                   info@drkhaddour.com
                 </a>
-              </motion.div>
-              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+              </div>
+              <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <Phone size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">الهاتف</p>
                 <a href="tel:+963123456789" className="text-indigo-300 text-sm hover:underline" dir="ltr">
                   +963 (12) 345-6789
                 </a>
-              </motion.div>
-              <motion.div variants={itemVariants} className="glass p-6 rounded-2xl space-y-2">
+              </div>
+              <div className="glass p-6 rounded-2xl space-y-2 hover:translate-y-1 transition-transform duration-300">
                 <MapPin size={24} className="text-indigo-300" />
                 <p className="font-semibold text-white">الموقع</p>
                 <p className="text-indigo-100 text-sm">دمشق، سوريا</p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              viewport={{ once: true }}
-              className="text-center space-y-6"
-            >
+            <div className="text-center space-y-6">
               <p className="text-indigo-100 text-lg">
                 تواصل معنا مباشرة عبر واتساب لحجز استشارتك
               </p>
-              <motion.a
+              <a
                 href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gtag_report_conversion()}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-lg font-bold hover:shadow-2xl transition duration-300"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-lg font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <svg
                   className="w-6 h-6"
@@ -899,9 +612,9 @@ export default function DentalClinicLanding() {
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
                 </svg>
                 احجز استشارتك عبر واتساب
-              </motion.a>
-            </motion.div>
-          </motion.div>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
