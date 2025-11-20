@@ -10,8 +10,59 @@ function gtag_report_conversion() {
   // Temporarily disabled
 }
 
-// Before/After Slider Component - Full interactive version
+// Before/After Component - Mobile Safe!
 function BeforeAfterSlider({ before, after, title, description }: { before: string; after: string; title: string; description: string }) {
+  return (
+    <div className="space-y-4">
+      {/* MOBILE: Simple side-by-side (NO JavaScript like /minimal that works!) */}
+      <div className="md:hidden">
+        <div className="grid grid-cols-2 gap-2 glass-indigo p-1 rounded-2xl">
+          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+            <Image 
+              src={before} 
+              alt="قبل" 
+              fill 
+              className="object-cover"
+              loading="lazy"
+              quality={70}
+              sizes="50vw"
+            />
+            <div className="absolute top-2 right-2 bg-violet-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+              قبل
+            </div>
+          </div>
+          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+            <Image 
+              src={after} 
+              alt="بعد" 
+              fill 
+              className="object-cover"
+              loading="lazy"
+              quality={70}
+              sizes="50vw"
+            />
+            <div className="absolute top-2 left-2 bg-indigo-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+              بعد
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP: Interactive slider */}
+      <div className="hidden md:block">
+        <DesktopSlider before={before} after={after} />
+      </div>
+
+      <div className="text-center space-y-2">
+        <h3 className="text-xl font-bold text-white">{title}</h3>
+        <p className="text-sm text-indigo-200">{description}</p>
+      </div>
+    </div>
+  )
+}
+
+// Desktop-only interactive slider
+function DesktopSlider({ before, after }: { before: string; after: string }) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -28,76 +79,58 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
     if (isDragging) handleMove(e.clientX)
   }
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (isDragging) handleMove(e.touches[0].clientX)
-  }
-
   return (
-    <div className="space-y-4">
       <div
         ref={containerRef}
-        className="relative w-full aspect-4/3 rounded-2xl overflow-hidden cursor-ew-resize select-none glass-indigo p-1"
+      className="relative w-full aspect-4/3 rounded-2xl overflow-hidden select-none glass-indigo p-1"
         onMouseMove={handleMouseMove}
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
         onMouseLeave={() => setIsDragging(false)}
-        onTouchMove={handleTouchMove}
-        onTouchStart={() => setIsDragging(true)}
-        onTouchEnd={() => setIsDragging(false)}
       >
-        {/* After Image (Base) */}
         <div className="absolute inset-0 rounded-xl overflow-hidden">
-          <Image 
-            src={after} 
-            alt="بعد" 
-            fill 
-            className="object-cover"
-            loading="lazy"
-            quality={75}
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-          <div className="absolute top-4 left-4 bg-indigo-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+        <Image 
+          src={after} 
+          alt="بعد" 
+          fill 
+          className="object-cover"
+          loading="lazy"
+          quality={80}
+          sizes="33vw"
+        />
+        <div className="absolute top-4 left-4 bg-indigo-500/90 text-white px-3 py-1 rounded-full text-sm font-bold">
             بعد
           </div>
         </div>
 
-        {/* Before Image (Clipped) */}
         <div
           className="absolute inset-0 rounded-xl overflow-hidden"
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
-          <Image 
-            src={before} 
-            alt="قبل" 
-            fill 
-            className="object-cover"
-            loading="lazy"
-            quality={75}
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-          <div className="absolute top-4 right-4 bg-violet-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+        <Image 
+          src={before} 
+          alt="قبل" 
+          fill 
+          className="object-cover"
+          loading="lazy"
+          quality={80}
+          sizes="33vw"
+        />
+        <div className="absolute top-4 right-4 bg-violet-500/90 text-white px-3 py-1 rounded-full text-sm font-bold">
             قبل
           </div>
         </div>
 
-        {/* Slider Line */}
         <div
           className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
           style={{ left: `${sliderPosition}%` }}
         >
-          {/* Slider Handle */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center">
             <div className="flex gap-1">
-              <div className="w-0.5 h-6 bg-indigo-500"></div>
-              <div className="w-0.5 h-6 bg-indigo-500"></div>
-            </div>
+            <div className="w-0.5 h-5 bg-indigo-500"></div>
+            <div className="w-0.5 h-5 bg-indigo-500"></div>
           </div>
         </div>
-      </div>
-
-      <div className="text-center space-y-2">
-        <h3 className="text-xl font-bold text-white">{title}</h3>
-        <p className="text-sm text-indigo-200">{description}</p>
       </div>
     </div>
   )
@@ -204,36 +237,42 @@ export default function DentalClinicLanding() {
         </div>
       </a>
 
-      {/* Navigation */}
-      <nav
-        className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none transition-all duration-500"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="transition-opacity duration-500">
+      {/* Navigation - Mobile Safe Version */}
+      <nav className="fixed top-0 w-full z-50 glass-indigo border-b border-indigo-200/30 m-0 rounded-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          {/* MOBILE: Simple logo only (like test-nav-1 that works!) */}
+          <div className="md:hidden">
             <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+            </div>
+          
+          {/* DESKTOP: Full navigation */}
+          <div className="hidden md:flex justify-between items-center">
+            <div>
+              <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={48} className="object-contain" />
+            </div>
+            <div className="flex items-center gap-8">
+              <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
               الخدمات
             </a>
-            <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
               عن الدكتور
             </a>
-            <a href="#testimonials" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
-              شهادات المرضى
+              <a href="#testimonials" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
+                شهادات المرضى
             </a>
-            <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition luxury-text text-sm">
+              <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
               اتصل بنا
             </a>
-            <a
-              href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => gtag_report_conversion()}
-              className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold hover:shadow-xl transition-all duration-300 text-sm inline-block hover:scale-105 active:scale-95"
+              <a
+                href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز موعد"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => gtag_report_conversion()}
+                className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold text-sm"
             >
               احجز الآن
-            </a>
+              </a>
+            </div>
           </div>
         </div>
       </nav>
@@ -307,15 +346,15 @@ export default function DentalClinicLanding() {
               <div className="absolute inset-0 bg-linear-to-br from-indigo-500 via-violet-400 to-indigo-400 rounded-3xl blur-2xl opacity-20"></div>
               <div className="relative glass-indigo p-1 w-full h-96 overflow-hidden hover:scale-[1.02] transition-transform duration-300">
                 <div className="w-full h-full bg-linear-to-b from-indigo-900/50 to-violet-900/30 rounded-3xl flex items-center justify-center relative overflow-hidden">
-                  <Image
+        <Image
                     src="/hero.jpeg"
                     alt="د. سامر خضور"
                     fill
                     className="object-cover rounded-3xl"
-                    priority
+          priority
                     quality={80}
                     sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+        />
                   <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-indigo-950/90 via-indigo-900/70 to-transparent p-6">
                     <h3 className="text-2xl font-bold text-white">د. سامر خضور</h3>
                     <p className="text-sm text-indigo-200">طب الأسنان الترميمي والتجميلي</p>
@@ -517,11 +556,11 @@ export default function DentalClinicLanding() {
                 
                 {/* Testimonial Card */}
                 <div className="glass-indigo p-6 rounded-2xl">
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
-                    ))}
-                  </div>
+                <div className="flex gap-1 mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={16} className="fill-indigo-400 text-indigo-400" />
+                  ))}
+                </div>
                   <p className="text-indigo-100 luxury-text italic text-sm">&ldquo;{testimonial.text}&rdquo;</p>
                 </div>
               </div>
