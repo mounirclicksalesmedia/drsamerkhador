@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Noto_Kufi_Arabic } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const notoKufiArabic = Noto_Kufi_Arabic({
@@ -25,26 +24,7 @@ export default function RootLayout({
         className={`${notoKufiArabic.variable} antialiased font-sans`}
       >
         {children}
-        {/* Google Tag - Completely removed from mobile to prevent refresh loops */}
-        {/* Scripts only loaded on desktop (>= 768px) */}
-        <Script id="google-tag-loader" strategy="lazyOnload">
-          {`
-            // Only load Google Tag scripts on desktop
-            if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-              // Load gtag.js script
-              const script = document.createElement('script');
-              script.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17721537681';
-              script.async = true;
-              document.head.appendChild(script);
-              
-              // Initialize dataLayer and gtag
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17721537681');
-            }
-          `}
-        </Script>
+        {/* Google Tag temporarily disabled - testing Vercel/domain issue */}
       </body>
     </html>
   );
