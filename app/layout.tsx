@@ -25,17 +25,20 @@ export default function RootLayout({
         className={`${notoKufiArabic.variable} antialiased font-sans`}
       >
         {children}
-        {/* Google Tag (gtag.js) - Loaded after page is ready */}
+        {/* Google Tag - Disabled on mobile for testing */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17721537681"
           strategy="lazyOnload"
         />
         <Script id="google-analytics" strategy="lazyOnload">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17721537681');
+            // Only load on desktop for testing
+            if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17721537681');
+            }
           `}
         </Script>
       </body>
