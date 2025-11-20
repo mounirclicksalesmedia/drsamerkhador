@@ -24,12 +24,13 @@ export default function RootLayout({
       <body
         className={`${notoKufiArabic.variable} antialiased font-sans`}
       >
-        {/* Google Tag (gtag.js) */}
+        {children}
+        {/* Google Tag (gtag.js) - Loaded after page is ready */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17721537681"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -37,7 +38,6 @@ export default function RootLayout({
             gtag('config', 'AW-17721537681');
           `}
         </Script>
-        {children}
       </body>
     </html>
   );

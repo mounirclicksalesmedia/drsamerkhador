@@ -78,7 +78,15 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
       >
         {/* After Image (Base) */}
         <div className="absolute inset-0 rounded-xl overflow-hidden">
-          <Image src={after} alt="بعد" fill className="object-cover" />
+          <Image 
+            src={after} 
+            alt="بعد" 
+            fill 
+            className="object-cover"
+            loading="lazy"
+            quality={75}
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
           <div className="absolute top-4 left-4 bg-indigo-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
             بعد
           </div>
@@ -89,7 +97,15 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
           className="absolute inset-0 rounded-xl overflow-hidden"
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
-          <Image src={before} alt="قبل" fill className="object-cover" />
+          <Image 
+            src={before} 
+            alt="قبل" 
+            fill 
+            className="object-cover"
+            loading="lazy"
+            quality={75}
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
           <div className="absolute top-4 right-4 bg-violet-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
             قبل
           </div>
@@ -490,6 +506,8 @@ export default function DentalClinicLanding() {
                     fill
                     className="object-cover rounded-3xl"
           priority
+          quality={80}
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
                   <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-indigo-950/90 via-indigo-900/70 to-transparent p-6">
                     <h3 className="text-2xl font-bold text-white">د. سامر خضور</h3>
@@ -732,7 +750,15 @@ export default function DentalClinicLanding() {
                 className="glass-indigo p-1 rounded-3xl overflow-hidden relative"
               >
                 <div className="aspect-square bg-linear-to-br from-indigo-900 to-violet-900 rounded-3xl relative overflow-hidden">
-                  <Image src="/dr.jpeg" alt="د. سامر خضور" fill className="object-cover rounded-3xl" />
+                  <Image 
+                    src="/dr.jpeg" 
+                    alt="د. سامر خضور" 
+                    fill 
+                    className="object-cover rounded-3xl"
+                    loading="lazy"
+                    quality={80}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
                 </div>
               </motion.div>
             </motion.div>
