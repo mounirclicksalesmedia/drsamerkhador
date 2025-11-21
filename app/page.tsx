@@ -237,7 +237,7 @@ export default function DentalClinicLanding() {
           {/* MOBILE: Logo works now (optimized to 500x300, 26KB!) */}
           <div className="md:hidden">
             <Image src="/Logowhite.png" alt="د. سامر خضور" width={120} height={72} className="object-contain" />
-          </div>
+            </div>
           
           {/* DESKTOP: Full navigation with logo */}
           <div className="hidden md:flex justify-between items-center">
@@ -246,25 +246,25 @@ export default function DentalClinicLanding() {
             </div>
             <div className="flex items-center gap-8">
               <a href="#services" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-                الخدمات
-              </a>
+              الخدمات
+            </a>
               <a href="#doctor" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-                عن الدكتور
-              </a>
+              عن الدكتور
+            </a>
               <a href="#testimonials" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
                 شهادات المرضى
-              </a>
+            </a>
               <a href="#contact" className="text-indigo-100 hover:text-indigo-300 transition text-sm">
-                اتصل بنا
-              </a>
+              اتصل بنا
+            </a>
               <a
                 href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gtag_report_conversion()}
                 className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold text-sm"
-              >
-                احجز الآن
+            >
+              احجز الآن
               </a>
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function DentalClinicLanding() {
           {/* CTA Button */}
           <div className="text-center mt-12">
             <a
-              href="https://wa.me/963123456789?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
+              href="https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
@@ -445,7 +445,7 @@ export default function DentalClinicLanding() {
           {/* CTA Button */}
           <div className="text-center mt-12">
             <a
-              href="https://wa.me/963123456789?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة"
+              href="https://wa.me/96566928651?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
@@ -514,7 +514,7 @@ export default function DentalClinicLanding() {
           {/* CTA Button */}
           <div className="text-center mt-12">
             <a
-              href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
+              href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
@@ -564,7 +564,7 @@ export default function DentalClinicLanding() {
           {/* CTA Button */}
           <div className="text-center mt-12">
             <a
-              href="https://wa.me/963123456789?text=مرحباً، أرغب في الحصول على ابتسامة مثالية"
+              href="https://wa.me/96566928651?text=مرحباً، أرغب في الحصول على ابتسامة مثالية"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => gtag_report_conversion()}
@@ -615,7 +615,7 @@ export default function DentalClinicLanding() {
                 تواصل معنا مباشرة عبر واتساب لحجز استشارتك
               </p>
               <a
-                href="https://wa.me/963123456789?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
+                href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gtag_report_conversion()}
