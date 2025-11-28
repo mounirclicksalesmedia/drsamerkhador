@@ -533,11 +533,11 @@ export default function DentalClinicLanding() {
         </div>
       </section>
 
-      {/* Testimonials with Before/After */}
+      {/* Before/After Cases */}
       <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5 backdrop-blur-sm">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">شهادات المرضى</h2>
-          <p className="text-lg text-indigo-200 luxury-text">استمع لمن اختبروا التحول</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">من حالات الطبيب</h2>
+          <p className="text-lg text-indigo-200 luxury-text">نتائج حقيقية تتحدث عن نفسها</p>
         </div>
 
         <div className="max-w-6xl mx-auto">
