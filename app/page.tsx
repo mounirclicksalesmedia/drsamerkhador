@@ -11,37 +11,43 @@ function gtag_report_conversion() {
 }
 
 // Before/After Component - Mobile Safe!
-function BeforeAfterSlider({ before, after, title, description }: { before: string; after: string; title: string; description: string }) {
+function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
   return (
-    <div className="space-y-4">
-      {/* MOBILE: Simple side-by-side (NO JavaScript like /minimal that works!) */}
+    <div>
+      {/* MOBILE: Stacked vertical display for better comparison */}
       <div className="md:hidden">
-        <div className="grid grid-cols-2 gap-2 glass-indigo p-1 rounded-2xl">
-          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+        <div className="glass-indigo p-2 rounded-2xl space-y-2">
+          {/* Before Image */}
+          <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
             <Image 
               src={before} 
               alt="قبل" 
               fill 
               className="object-cover"
               loading="lazy"
-              quality={70}
-              sizes="50vw"
+              quality={75}
+              sizes="100vw"
             />
-            <div className="absolute top-2 right-2 bg-violet-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+            <div className="absolute top-3 right-3 bg-violet-500/95 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               قبل
             </div>
           </div>
-          <div className="relative aspect-4/3 rounded-xl overflow-hidden">
+          {/* Arrow indicator */}
+          <div className="flex justify-center py-1">
+            <div className="text-indigo-300 text-2xl">↓</div>
+          </div>
+          {/* After Image */}
+          <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
             <Image 
               src={after} 
               alt="بعد" 
               fill 
               className="object-cover"
               loading="lazy"
-              quality={70}
-              sizes="50vw"
+              quality={75}
+              sizes="100vw"
             />
-            <div className="absolute top-2 left-2 bg-indigo-500/90 text-white px-2 py-1 rounded-full text-xs font-bold">
+            <div className="absolute top-3 left-3 bg-indigo-500/95 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
               بعد
             </div>
           </div>
@@ -51,11 +57,6 @@ function BeforeAfterSlider({ before, after, title, description }: { before: stri
       {/* DESKTOP: Interactive slider */}
       <div className="hidden md:block">
         <DesktopSlider before={before} after={after} />
-      </div>
-
-      <div className="text-center space-y-2">
-        <h3 className="text-xl font-bold text-white">{title}</h3>
-        <p className="text-sm text-indigo-200">{description}</p>
       </div>
     </div>
   )
@@ -550,8 +551,6 @@ export default function DentalClinicLanding() {
                 <BeforeAfterSlider
                   before={testimonial.before}
                   after={testimonial.after}
-                  title={testimonial.name}
-                  description=""
                 />
                 
                 {/* Testimonial Card */}
