@@ -581,6 +581,128 @@ export default function DentalClinicLanding() {
         </div>
       </section>
 
+      {/* Patient Reviews Section - Marquee Carousel */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12 space-y-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white luxury-text">شهادات المرضى</h2>
+            <p className="text-lg text-indigo-200 luxury-text">استمع لمن اختبروا التحول</p>
+            <div className="flex justify-center gap-1 mt-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={24} className="fill-yellow-400 text-yellow-400" />
+              ))}
+              <span className="text-white ml-2 font-bold">5.0</span>
+              <span className="text-indigo-200 ml-1">على Google</span>
+            </div>
+          </div>
+
+          {/* Marquee Container */}
+          <div className="relative">
+            {/* Gradient Overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-indigo-950 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-indigo-950 to-transparent z-10 pointer-events-none"></div>
+            
+            {/* Marquee Track */}
+            <div className="overflow-hidden">
+              <div className="flex gap-6 animate-marquee hover:pause-animation">
+                {/* Review Cards - Duplicated for seamless loop */}
+                {[...Array(2)].map((_, setIndex) => (
+                  <div key={setIndex} className="flex gap-6 shrink-0">
+                    {/* Review 1 - Fooz */}
+                    <div className="glass-indigo p-6 rounded-2xl w-80 shrink-0 hover:scale-[1.02] transition-transform">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xl">F</div>
+                        <div>
+                          <p className="font-bold text-white">Fooz Alqallaf</p>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} className="fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-indigo-100 text-sm leading-relaxed">
+                        &ldquo;The best clinic of Kuwait Salmiya branch and Dr. Samer is the best&rdquo;
+                      </p>
+                    </div>
+
+                    {/* Review 2 - Laurence */}
+                    <div className="glass-indigo p-6 rounded-2xl w-80 shrink-0 hover:scale-[1.02] transition-transform">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-xl">L</div>
+                        <div>
+                          <p className="font-bold text-white">Laurence AF</p>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} className="fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-indigo-100 text-sm leading-relaxed">
+                        &ldquo;I had my veneers (Hollywood smile) done with Dr Samer back in 2011. My teeth look perfect even after all these years! I really recommend him&rdquo;
+                      </p>
+                    </div>
+
+                    {/* Review 3 - Mohammed */}
+                    <div className="glass-indigo p-6 rounded-2xl w-80 shrink-0 hover:scale-[1.02] transition-transform">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-xl">M</div>
+                        <div>
+                          <p className="font-bold text-white">Mohammed Alfayyadh</p>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} className="fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-indigo-100 text-sm leading-relaxed" dir="rtl">
+                        &ldquo;يعطيك العافيه دكتور سامر شغله نظيف ومرتب والشكر موصول ايضاً للدكتور شارما&rdquo;
+                      </p>
+                    </div>
+
+                    {/* Review 4 - Layla */}
+                    <div className="glass-indigo p-6 rounded-2xl w-80 shrink-0 hover:scale-[1.02] transition-transform">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-pink-400 flex items-center justify-center text-white font-bold text-xl">L</div>
+                        <div>
+                          <p className="font-bold text-white">Layla Almaleh</p>
+                          <div className="flex gap-0.5">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={12} className="fill-yellow-400 text-yellow-400" />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-indigo-100 text-sm leading-relaxed">
+                        &ldquo;Dr. Samer has long been our dental family doctor who never spared an effort to offer us the fruit of his skill, knowledge, top-notch expertise. A million thanks!&rdquo;
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center mt-12">
+            <a
+              href="https://maps.app.goo.gl/VGH5ENBxfYrTj7qy9?g_st=ipc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 glass text-white rounded-full font-bold hover:bg-white/20 transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+              </svg>
+              شاهد المزيد من التقييمات على Google
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse"></div>

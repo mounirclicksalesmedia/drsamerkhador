@@ -175,4 +175,26 @@
   .animation-delay-400 {
     animation-delay: 0.4s;
   }
+
+  /* Marquee Animation for Testimonials */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+
+  .pause-animation {
+    animation-play-state: paused;
+  }
 }
