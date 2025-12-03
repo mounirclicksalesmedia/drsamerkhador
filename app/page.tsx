@@ -4,10 +4,35 @@ import { Mail, Phone, MapPin, Award, Users, Zap, Heart, ArrowRight, CheckCircle,
 import { useState, useRef } from "react"
 import Image from "next/image"
 
-// Google Ads Conversion Tracking - DISABLED for testing
-// Will re-enable once we identify the Vercel/domain issue
-function gtag_report_conversion() {
-  // Temporarily disabled
+// Google Ads Conversion Tracking
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+
+function gtag_report_conversion(url?: string) {
+  if (typeof window === 'undefined' || !window.gtag) {
+    // Fallback: if gtag is not loaded, just navigate
+    if (url) {
+      window.location.href = url;
+    }
+    return false;
+  }
+
+  const callback = function () {
+    if (typeof url !== 'undefined' && url) {
+      window.location.href = url;
+    }
+  };
+
+  window.gtag('event', 'conversion', {
+    'send_to': 'AW-17721537681/sMmWCIzIqMMbEJHppIJC',
+    'event_callback': callback
+  });
+
+  return false;
 }
 
 // Before/After Component - Mobile Safe!
@@ -193,7 +218,10 @@ export default function DentalClinicLanding() {
         href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد"
         target="_blank"
         rel="noopener noreferrer"
-        onClick={() => gtag_report_conversion()}
+        onClick={(e) => {
+          e.preventDefault();
+          gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد");
+        }}
         className="fixed bottom-6 right-6 z-50 group transition-transform hover:scale-110 active:scale-90"
       >
         {/* Pulsing Ring Animation - CSS only */}
@@ -262,7 +290,10 @@ export default function DentalClinicLanding() {
                 href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => gtag_report_conversion()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في حجز موعد");
+                }}
                 className="px-6 py-2 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-semibold text-sm"
             >
               احجز الآن
@@ -303,7 +334,10 @@ export default function DentalClinicLanding() {
                   href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => gtag_report_conversion()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور");
+                  }}
                   className="px-8 py-4 bg-linear-to-r from-indigo-500 to-violet-400 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 text-center hover:scale-105 active:scale-95"
                 >
                   احجز استشارة
@@ -312,7 +346,10 @@ export default function DentalClinicLanding() {
                   href="https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => gtag_report_conversion()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم");
+                  }}
                   className="px-8 py-4 glass text-white rounded-full font-semibold hover:bg-white/20 transition-all text-center hover:scale-105 active:scale-95"
                 >
                   تواصل معنا
@@ -391,7 +428,10 @@ export default function DentalClinicLanding() {
               href="https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => gtag_report_conversion()}
+              onClick={(e) => {
+                e.preventDefault();
+                gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في معرفة المزيد عن خدماتكم");
+              }}
               className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               تواصل معنا عبر واتساب
@@ -449,7 +489,10 @@ export default function DentalClinicLanding() {
               href="https://wa.me/96566928651?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => gtag_report_conversion()}
+              onClick={(e) => {
+                e.preventDefault();
+                gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في الاستفسار عن الخدمات المتاحة");
+              }}
               className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               استفسر عن خدماتنا
@@ -524,7 +567,10 @@ export default function DentalClinicLanding() {
               href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => gtag_report_conversion()}
+              onClick={(e) => {
+                e.preventDefault();
+                gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور");
+              }}
               className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               احجز استشارة الآن
@@ -572,7 +618,10 @@ export default function DentalClinicLanding() {
               href="https://wa.me/96566928651?text=مرحباً، أرغب في الحصول على ابتسامة مثالية"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => gtag_report_conversion()}
+              onClick={(e) => {
+                e.preventDefault();
+                gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في الحصول على ابتسامة مثالية");
+              }}
               className="inline-block px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-full font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
             >
               ابدأ رحلتك للتحول الآن
@@ -600,8 +649,8 @@ export default function DentalClinicLanding() {
           {/* Marquee Container */}
           <div className="relative">
             {/* Gradient Overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-indigo-950 to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-indigo-950 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-linear-to-r from-indigo-950 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-linear-to-l from-indigo-950 to-transparent z-10 pointer-events-none"></div>
             
             {/* Marquee Track */}
             <div className="overflow-hidden">
@@ -745,7 +794,10 @@ export default function DentalClinicLanding() {
                 href="https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => gtag_report_conversion()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  gtag_report_conversion("https://wa.me/96566928651?text=مرحباً، أرغب في حجز استشارة مع د. سامر خضور");
+                }}
                 className="inline-flex items-center gap-3 px-8 py-4 bg-linear-to-r from-green-500 to-green-600 text-white rounded-lg font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <svg
